@@ -262,7 +262,7 @@ ids | A JSON list of ids to complete.
 
 Argument | Description
 -------- | -----------
-in_history | If these tasks should be moved to history, default is `1`. Setting it to `0` will not move it to history. Useful when checking off sub tasks.
+force_history | If these tasks should be moved to history, default is `1`. Setting it to `0` will not move it to history. Useful when checking off sub tasks.
 
 ## Uncomplete items
 
