@@ -192,40 +192,6 @@ Parameter | Description
 lang | User's language. Can be `de`, `fr`, `ja`, `pl`, `pt_BR`, `zh_CN`, `es`, `hi`, `ko`, `pt`, `ru`, `zh_TW`.
 timezone | User's timezone. As default we use the user's IP address to determine the timezone.
 
-## Delete an existing user
-
-> An example of deleting an existing user:
-
-```shell
-$ curl https://todoist.com/API/v6/delete_user \
-    -d token=0123456789abcdef0123456789abcdef01234567 \
-    -d current_password=secret
-"ok"
-```
-
-```python
->>> import todoist
->>> api = todoist.TodoistAPI('0123456789abcdef0123456789abcdef01234567')
->>> api.delete_user('secret')
-ok
-```
-
-Delete an existing user.
-
-### Required parameters
-
-Parameter | Description
---------- | -----------
-token | User's token.
-current_password | User's current password.
-
-### Optional parameters
-
-Parameter | Description
---------- | -----------
-reason_for_delete | Reason for deletion (used for feedback).
-in_background | Default is `1`. Set it to `0` if you want the user deleted instantly (and not in a background worker).
-
 ## Update user's properties
 
 
@@ -235,6 +201,10 @@ in_background | Default is `1`. Set it to `0` if you want the user deleted insta
 $ curl https://todoist.com/API/v6/sync -X POST \
     -d token=0123456789abcdef0123456789abcdef01234567 \
     -d commands='[{"type": "user_update", "uuid": "52f83009-7e27-4b9f-9943-1c5e3d1e6889", "args": {"time_format": 0}}]'
+{ ...
+  "SyncStatus": {"52f83009-7e27-4b9f-9943-1c5e3d1e6889": "ok"},
+  ... }
+
 ```
 
 ```python
@@ -260,3 +230,32 @@ next_week | When postponing what day should we choose? `1` for Monday, `7` for S
 start_page | Can be one of following values: `_blank` to show blank page, `_info_page` to show info page `_project_<PROJECT_ID>` where `<PROJECT_ID>` is the id of the project to show, `<ANY_QUERY>` to query after anything (for example `tod,tom,!!1`).
 default_reminder | Can be one of the following values: `email` to send reminders by email, `mobile` to send reminders to mobile devices via SMS, `push` to send reminders to smart devices using push notifications (one of Android or iOS official client must be installed on the client side to receive these notifications), `no_default` to turn off sending default reminders.
 
+## Update goals
+
+```shell
+$ curl https://todoist.com/API/v6/sync -X POST \
+    -d token=0123456789abcdef0123456789abcdef01234567 \
+    -d commands='[{"type": "update_goals", "uuid": "b9bbeaf8-9db6-452a-a843-a192f1542892", "args": {"vacation_mode": 1}}]'
+{ ...
+  "SyncStatus": {"b9bbeaf8-9db6-452a-a843-a192f1542892": "ok"},
+  ... }
+
+```
+
+```python
+>>> import todoist
+>>> api = todoist.TodoistAPI('0123456789abcdef0123456789abcdef01234567')
+>>> api.user.update_goals(vacation_mode=1)
+```
+
+Update the goals of the user.
+
+### Optional parameters
+
+Parameter | Description
+--------- | -----------
+daily_goal | The target number of tasks to complete per day.
+weekly_goal | The target number of tasks to complete per week.
+ignore_days | A list with the days of the week to ignore.  `1` for Monday, `7` for Sunday.
+vacation_mode | Marks the user as being on vacation.
+karma_disabled | Disables the karma and goals measuring alltogether.
