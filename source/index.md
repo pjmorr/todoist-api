@@ -22,6 +22,7 @@ includes:
   - sharing
   - livenotifications
   - urlschemes
+  - webhooks
 
 search: false
 layout: doc_layout
