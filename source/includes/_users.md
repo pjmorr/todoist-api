@@ -230,7 +230,7 @@ next_week | When postponing what day should we choose? `1` for Monday, `7` for S
 start_page | Can be one of following values: `_blank` to show blank page, `_info_page` to show info page `_project_<PROJECT_ID>` where `<PROJECT_ID>` is the id of the project to show, `<ANY_QUERY>` to query after anything (for example `tod,tom,!!1`).
 default_reminder | Can be one of the following values: `email` to send reminders by email, `mobile` to send reminders to mobile devices via SMS, `push` to send reminders to smart devices using push notifications (one of Android or iOS official client must be installed on the client side to receive these notifications), `no_default` to turn off sending default reminders.
 
-## Update goals
+## Update karma goals
 
 ```shell
 $ curl https://todoist.com/API/v6/sync -X POST \
