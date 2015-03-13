@@ -248,7 +248,7 @@ $ curl https://todoist.com/API/v6/sync -X POST \
 >>> api.user.update_goals(vacation_mode=1)
 ```
 
-Update the goals of the user.
+Update the karma goals of the user.
 
 ### Optional parameters
 
