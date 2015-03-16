@@ -262,14 +262,13 @@ Parameter | Description
 --------- | -----------
 token | User's API token (returned on successful login). Else the session cookie is used.
 seq_no | Sequence number. On the initial request you should pass `0`. On all other requests you should pass the last `seq_no` you received from the server.
-resource_types | An optional parameter which is useful if you don't need a complete result, but want to have just a subset. It can be useful for speeding up the load of most important user's data (like the list of projects and tasks) and to get the rest of the data asynchronously later on. It should be a JSON-encoded list of strings. For example, `["projects", "labels", "filters"]`. Below is the list of recognizable values for strings: `projects` for the list of projects, `items` for list of tasks, `labels` for the list of labels, `notes` for the list of notes, `filters` for the list of filters, `reminders` for the list of reminders, `locations` for the list of locations, `user` for the user's details, `live_notifications` for the list of live notifications, `day_orders` for the list of day orders, `collaborators` for the list of collaborators, `share_invitations` for the list of invitations, and `all` for all the above, in other words for everything.
+resource_types | An optional parameter which is useful if you don't need a complete result, but want to have just a subset. It can be useful for speeding up the load of most important user's data (like the list of projects and tasks) and to get the rest of the data asynchronously later on. It should be a JSON-encoded list of strings. For example, `["projects", "labels", "filters"]`. Below is the list of recognizable values for strings: `projects` for the list of projects, `items` for list of tasks, `labels` for the list of labels, `notes` for the list of notes, `filters` for the list of filters, `reminders` for the list of reminders, `locations` for the list of locations, `user` for the user's details, `live_notifications` for the list of live notifications, `day_orders` for the list of day orders, `collaborators` for the list of collaborators, `share_invitations` for the list of invitations, and `all` for all the above.  In order to include the notification settings (that is needed on platforms that implement native notifications), the `notification_settings` has to explicitly be included in the list of resource types.
 
 ### Optional parameters
 
 Parameter | Description
 --------- | -----------
 day_orders_timestamp | The `sync` API requests return `DayOrdersTimestamp` that specifies when the day orders were last updated. If you omit `day_orders_timestamp` then none of then will be fetched. If you specify `day_orders_timestamp` then day orders will be returned if your timestamp is different from the servers. If you send `day_orders_timestamp` and the day orders have not been updated then the server won't return the `DayOrders` entry at all.
-include_notification_settings | Include notification settings (`SettingsNotifications`). This is needed on platforms that implement native notifications.
 
 ### Explanation of data returned
 
@@ -290,7 +289,7 @@ CollaboratorsStates | A JSON list specifying the state of each collaborator in e
 LiveNotifications | A JSON list of notifications for the user. On the initial request (`seq_no=0`) all notifications are returned. Afterwards only the updated.
 LiveNotificationsLastRead | What is the last `seq_no` the user has seen? This is used to implement unread notifications.
 Settings | Includes user's settings as a JSON object, including things like start page query and timezone information. Only included if `seq_no` is different.
-SettingsNotifications | The same data as the `getNotificationSettings` API call returns. This is needed on platforms that implement native notifications. Only included if `seq_no` is different.
+SettingsNotifications | This is needed on platforms that implement native notifications. Only included if `seq_no` is different.
 
 ## Send data
 
