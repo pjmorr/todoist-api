@@ -327,7 +327,7 @@ Complete a recurring task, and the reason why this is a special case is because 
 Argument | Description
 -------- | -----------
 id | The id of the item to update.
-new_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM`.
+due_date | Should be formatted as `YYYY-MM-DDTHH:MM` (in UTC).
 date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/timeInsert).
 is_forward | Indicates if it's a complete `1` or uncomplete `0`.
 
