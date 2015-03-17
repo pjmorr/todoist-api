@@ -197,3 +197,24 @@ Delete a reminder.
 Argument | Description
 -------- | -----------
 id | The id of the filter.
+
+
+## Clear the locations
+
+```shell
+$ curl https://todoist.com/API/v6/sync -X POST \
+    -d token=0123456789abcdef0123456789abcdef01234567 \
+    -d commands='[{"type": "clear_locations", "uuid": "d285ae02-80c6-477c-bfa9-45272d7bddfb", "args": {}}]'
+{ ...
+  "SyncStatus": {"d285ae02-80c6-477c-bfa9-45272d7bddfb": "ok"},
+  ... }
+```
+
+```python
+>>> import todoist
+>>> api = todoist.TodoistAPI('0123456789abcdef0123456789abcdef01234567')
+>>> reminder = api.locations.clear()
+>>> api.commit()
+```
+
+Clears the locations list, which is used for the location reminders.
