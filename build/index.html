@@ -1915,7 +1915,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </blockquote>
 <pre class="highlight shell"><span class="gp">$ </span>curl https://todoist.com/API/v6/sync -X POST <span class="se">\</span>
     -d <span class="nv">token</span><span class="o">=</span>0123456789abcdef0123456789abcdef01234567 <span class="se">\</span>
-    -d <span class="nv">commands</span><span class="o">=</span><span class="s1">'[{"type": "item_update_date_complete", "uuid": "c5888360-96b1-46be-aaac-b49b1135feab", "args": {"id": 33548400, "new_data_utc": "2014-10-30T23:59", "date_string": "every day", "is_forward": 1}}]'</span>
+    -d <span class="nv">commands</span><span class="o">=</span><span class="s1">'[{"type": "item_update_date_complete", "uuid": "c5888360-96b1-46be-aaac-b49b1135feab", "args": {"id": 33548400, "due_date": "2014-10-30T23:59", "date_string": "every day", "is_forward": 1}}]'</span>
 <span class="o">{</span> ...
   <span class="s2">"SyncStatus"</span>: <span class="o">{</span><span class="s2">"c5888360-96b1-46be-aaac-b49b1135feab"</span>: <span class="s2">"ok"</span><span class="o">}</span>,
   ... <span class="o">}</span>
