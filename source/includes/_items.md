@@ -67,7 +67,7 @@ user_id | The owner of the task.
 content | The text of the task.
 project_id | The id of the project to add the task to.
 date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/timeInsert).
-due_date | Should be formatted as `YYYY-MM-DDTHH:MM`, example: `2012-3-24T23:59`. Value of `due_date` must be in UTC. If you want to pass in due dates, note that `date_string` is required, while `due_date` can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user's profile settings.
+due_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM`, example: `2012-3-24T23:59`. Value of `due_date_utc` must be in UTC. If you want to pass in due dates, note that `date_string` is required, while `due_date_utc` can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user's profile settings.
 in_history | If set to `1`, the task is marked completed.
 collapsed | If set to `1` the task's sub tasks are collapsed. Otherwise they aren't.
 indent | The indent of the item (a number between `1` and `4`, where `1` is top-level).
@@ -116,7 +116,7 @@ Argument | Description
 priority | The priority of the task (a number between `1` and `4`, `4` for very urgent and `1` for natural).
 indent | The indent of the item (a number between `1` and `4`, where `1` is top-level).
 date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/timeInsert).
-due_date | Should be formatted as `YYYY-MM-DDTHH:MM`, example: `2012-3-24T23:59`. Value of `due_date` must be in UTC. If you want to pass in due dates, note that `date_string` is required, while `due_date` can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user's profile settings.
+due_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM`, example: `2012-3-24T23:59`. Value of `due_date_utc` must be in UTC. If you want to pass in due dates, note that `date_string` is required, while `due_date_utc` can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user's profile settings.
 item_order | The order of the task.
 children | The tasks child tasks (a list of task ids such as `[13134,232345]`)
 labels | The tasks labels (a list of label ids such as `[2324,2525]`)
@@ -327,7 +327,7 @@ Complete a recurring task, and the reason why this is a special case is because 
 Argument | Description
 -------- | -----------
 id | The id of the item to update.
-due_date | Should be formatted as `YYYY-MM-DDTHH:MM` (in UTC).
+due_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM` (in UTC).
 date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/timeInsert).
 is_forward | Indicates if it's a complete `1` or uncomplete `0`.
 
