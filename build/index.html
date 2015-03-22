@@ -1538,8 +1538,8 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/timeInsert">which formats are supported</a>.</td>
 </tr>
 <tr>
-<td>due_date</td>
-<td>Should be formatted as <code class="prettyprint">YYYY-MM-DDTHH:MM</code>, example: <code class="prettyprint">2012-3-24T23:59</code>. Value of <code class="prettyprint">due_date</code> must be in UTC. If you want to pass in due dates, note that <code class="prettyprint">date_string</code> is required, while <code class="prettyprint">due_date</code> can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user&rsquo;s profile settings.</td>
+<td>due_date_utc</td>
+<td>Should be formatted as <code class="prettyprint">YYYY-MM-DDTHH:MM</code>, example: <code class="prettyprint">2012-3-24T23:59</code>. Value of <code class="prettyprint">due_date_utc</code> must be in UTC. If you want to pass in due dates, note that <code class="prettyprint">date_string</code> is required, while <code class="prettyprint">due_date_utc</code> can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user&rsquo;s profile settings.</td>
 </tr>
 <tr>
 <td>in_history</td>
@@ -1637,8 +1637,8 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/timeInsert">which formats are supported</a>.</td>
 </tr>
 <tr>
-<td>due_date</td>
-<td>Should be formatted as <code class="prettyprint">YYYY-MM-DDTHH:MM</code>, example: <code class="prettyprint">2012-3-24T23:59</code>. Value of <code class="prettyprint">due_date</code> must be in UTC. If you want to pass in due dates, note that <code class="prettyprint">date_string</code> is required, while <code class="prettyprint">due_date</code> can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user&rsquo;s profile settings.</td>
+<td>due_date_utc</td>
+<td>Should be formatted as <code class="prettyprint">YYYY-MM-DDTHH:MM</code>, example: <code class="prettyprint">2012-3-24T23:59</code>. Value of <code class="prettyprint">due_date_utc</code> must be in UTC. If you want to pass in due dates, note that <code class="prettyprint">date_string</code> is required, while <code class="prettyprint">due_date_utc</code> can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user&rsquo;s profile settings.</td>
 </tr>
 <tr>
 <td>item_order</td>
@@ -1939,7 +1939,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <td>The id of the item to update.</td>
 </tr>
 <tr>
-<td>due_date</td>
+<td>due_date_utc</td>
 <td>Should be formatted as <code class="prettyprint">YYYY-MM-DDTHH:MM</code> (in UTC).</td>
 </tr>
 <tr>
@@ -2861,8 +2861,8 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <td>The type of the reminder: <code class="prettyprint">relative</code> for a time-based reminder specified in minutes from now, <code class="prettyprint">absolute</code> for a time-based reminder with a specific time and date in the future, and <code class="prettyprint">location</code> for a location-based reminder.</td>
 </tr>
 <tr>
-<td>due_date</td>
-<td>Should be formatted as <code class="prettyprint">YYYY-MM-DDTHH:MM</code>, example: <code class="prettyprint">2012-3-24T23:59</code>. Value of <code class="prettyprint">due_date</code> must be in UTC. If you want to pass in due dates, note that <code class="prettyprint">date_string</code> is required, while <code class="prettyprint">due_date</code> can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user&rsquo;s profile settings.</td>
+<td>due_date_utc</td>
+<td>Should be formatted as <code class="prettyprint">YYYY-MM-DDTHH:MM</code>, example: <code class="prettyprint">2012-3-24T23:59</code>. Value of <code class="prettyprint">due_date_utc</code> must be in UTC. If you want to pass in due dates, note that <code class="prettyprint">date_string</code> is required, while <code class="prettyprint">due_date_utc</code> can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user&rsquo;s profile settings.</td>
 </tr>
 <tr>
 <td>date_string</td>
@@ -2896,7 +2896,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </blockquote>
 <pre class="highlight shell"><span class="gp">$ </span>curl https://todoist.com/API/v6/sync -X POST <span class="se">\</span>
     -d <span class="nv">token</span><span class="o">=</span>0123456789abcdef0123456789abcdef01234567 <span class="se">\</span>
-    -d <span class="nv">commands</span><span class="o">=</span><span class="s1">'[{"type": "reminder_add", "temp_id": "952a365e-4965-4113-b4f4-80cdfcada172u", "uuid": "e7c8be2d-f484-4852-9422-a9984c58b1cd", "args": {"item_id": 33511505, "service": "email", "due_date": "2014-10-15T11:00"}}]'</span>
+    -d <span class="nv">commands</span><span class="o">=</span><span class="s1">'[{"type": "reminder_add", "temp_id": "952a365e-4965-4113-b4f4-80cdfcada172u", "uuid": "e7c8be2d-f484-4852-9422-a9984c58b1cd", "args": {"item_id": 33511505, "service": "email", "due_date_utc": "2014-10-15T11:00"}}]'</span>
 <span class="o">{</span> ...
   <span class="s2">"SyncStatus"</span>: <span class="o">{</span><span class="s2">"e7c8be2d-f484-4852-9422-a9984c58b1cd"</span>: <span class="s2">"ok"</span><span class="o">}</span>,
   <span class="s2">"TempIdMapping"</span>: <span class="o">{</span><span class="s2">"952a365e-4965-4113-b4f4-80cdfcada172"</span>: 1234<span class="o">}</span>,
@@ -2904,7 +2904,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </pre>
 <pre class="highlight python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">todoist</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">api</span> <span class="o">=</span> <span class="n">todoist</span><span class="o">.</span><span class="n">TodoistAPI</span><span class="p">(</span><span class="s">'0123456789abcdef0123456789abcdef01234567'</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">reminder</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">reminders</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">33511505</span><span class="p">,</span> <span class="n">service</span><span class="o">=</span><span class="s">'email'</span><span class="p">,</span> <span class="n">due_date</span><span class="o">=</span><span class="s">'2014-10-15T11:00'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">reminder</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">reminders</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">33511505</span><span class="p">,</span> <span class="n">service</span><span class="o">=</span><span class="s">'email'</span><span class="p">,</span> <span class="n">due_date_utc</span><span class="o">=</span><span class="s">'2014-10-15T11:00'</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">api</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 </pre>
 
@@ -2958,8 +2958,8 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <td>The relative time in minutes before the due date of the item, in which the reminder should be triggered. Note, that the item should have a due date set in order to add a relative reminder.</td>
 </tr>
 <tr>
-<td>due_date</td>
-<td>Should be formatted as <code class="prettyprint">YYYY-MM-DDTHH:MM</code>, example: <code class="prettyprint">2012-3-24T23:59</code>. Value of <code class="prettyprint">due_date</code> must be in UTC. If you want to pass in due dates, note that <code class="prettyprint">date_string</code> is required, while <code class="prettyprint">due_date</code> can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user&rsquo;s profile settings.</td>
+<td>due_date_utc</td>
+<td>Should be formatted as <code class="prettyprint">YYYY-MM-DDTHH:MM</code>, example: <code class="prettyprint">2012-3-24T23:59</code>. Value of <code class="prettyprint">due_date_utc</code> must be in UTC. If you want to pass in due dates, note that <code class="prettyprint">date_string</code> is required, while <code class="prettyprint">due_date_utc</code> can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user&rsquo;s profile settings.</td>
 </tr>
 <tr>
 <td>date_string</td>
@@ -2996,7 +2996,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </blockquote>
 <pre class="highlight shell"><span class="gp">$ </span>curl https://todoist.com/API/v6/sync -X POST <span class="se">\</span>
     -d <span class="nv">token</span><span class="o">=</span>0123456789abcdef0123456789abcdef01234567 <span class="se">\</span>
-    -d <span class="nv">commands</span><span class="o">=</span><span class="s1">'[{"type": "reminder_update", "uuid": "b0e7562e-ea9f-4c84-87ee-9cbf9c103234", "args": {"id": 1234, "due_date": "2014-10-10T15:00"}}]'</span>
+    -d <span class="nv">commands</span><span class="o">=</span><span class="s1">'[{"type": "reminder_update", "uuid": "b0e7562e-ea9f-4c84-87ee-9cbf9c103234", "args": {"id": 1234, "due_date_utc": "2014-10-10T15:00"}}]'</span>
 <span class="o">{</span> ...
   <span class="s2">"SyncStatus"</span>: <span class="o">{</span><span class="s2">"b0e7562e-ea9f-4c84-87ee-9cbf9c103234"</span>: <span class="s2">"ok"</span><span class="o">}</span>,
   ... <span class="o">}</span>
@@ -3004,7 +3004,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <pre class="highlight python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">todoist</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">api</span> <span class="o">=</span> <span class="n">todoist</span><span class="o">.</span><span class="n">TodoistAPI</span><span class="p">(</span><span class="s">'0123456789abcdef0123456789abcdef01234567'</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">reminder</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">reminders</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">reminder</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">due_date</span><span class="o">=</span><span class="s">'2014-10-10T15:00'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">reminder</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">due_date_utc</span><span class="o">=</span><span class="s">'2014-10-10T15:00'</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">api</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 </pre>
 
@@ -3033,7 +3033,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <td>The relative time in minutes from the current time in which the reminder should be triggered.</td>
 </tr>
 <tr>
-<td>due_date</td>
+<td>due_date_utc</td>
 <td>Should be formatted as <code class="prettyprint">YYYY-MM-DDTHH:MM</code>, example: <code class="prettyprint">2012-3-24T23:59</code>. Value of <code class="prettyprint">due_date</code> must be in UTC. If you want to pass in due dates, note that <code class="prettyprint">date_string</code> is required, while <code class="prettyprint">due_date</code> (<code class="prettyprint">due_date</code>) can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user&rsquo;s profile settings.</td>
 </tr>
 <tr>
