@@ -5367,6 +5367,170 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </tr>
 </tbody></table>
 
+        <h1 id='webhooks'>Webhooks</h1>
+<p>The Todoist Webhooks API allows applications to receive realtime notification (in form of HTTP POST payload) on the subscribed user events. </p>
+
+<p>Notice that once you have webhook setup, you will start receiving webhook events from <strong>all your app users</strong>.</p>
+<h2 id='webhooks-configuration'>Webhooks Configuration</h2>
+<p>Before you can start receiving webhook event notifications, you must have your webhook configured at the App Management Console. </p>
+<h3 id='callback-url-verification'>Callback URL Verification</h3>
+<p>To receive webhook event notifications, you must supply a &ldquo;callback URL&rdquo; to recieve these notification. It could be configured at the App Management Console.</p>
+
+<blockquote>
+<p>An example of a callback_url verification request:
+<code class="prettyprint">
+HTTP GET https://your_callback_url?challenge=GJ12X4D1IGJXB
+</code></p>
+</blockquote>
+
+<p>After you enter the webhook callback URL and save the setting, we will send a verification request to the callback URL to verify that the endpoint belongs to you. It would be a HTTP GET request with a <code class="prettyprint">challenge</code> query paramter that contains a random hash string. </p>
+
+<p>Upon receiving such a request, your callback URL endpoint must return a HTTP 200 response with the same <code class="prettyprint">challenge</code> text in the response body to complete the verification process. Once the verification is completed, your app&rsquo;s &ldquo;Webhook Status&rdquo; field should become &ldquo;Active&rdquo;, and you will start receiving webhook event notification from all your app users.</p>
+<h3 id='events'>Events</h3>
+<p>Here is a list of events that you could subscribe to, and you could configured this at the App Management Console.</p>
+
+<table><thead>
+<tr>
+<th>Event Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>all</td>
+<td></td>
+</tr>
+<tr>
+<td>item:added</td>
+<td></td>
+</tr>
+<tr>
+<td>item:updated</td>
+<td></td>
+</tr>
+<tr>
+<td>item:deleted</td>
+<td></td>
+</tr>
+<tr>
+<td>item:completed</td>
+<td></td>
+</tr>
+<tr>
+<td>item:uncompleted</td>
+<td></td>
+</tr>
+<tr>
+<td>note:added</td>
+<td></td>
+</tr>
+<tr>
+<td>note:updated</td>
+<td></td>
+</tr>
+<tr>
+<td>note:deleted</td>
+<td></td>
+</tr>
+<tr>
+<td>project:added</td>
+<td></td>
+</tr>
+<tr>
+<td>project:updated</td>
+<td></td>
+</tr>
+<tr>
+<td>project:deleted</td>
+<td></td>
+</tr>
+<tr>
+<td>project:archived</td>
+<td></td>
+</tr>
+<tr>
+<td>project:unarchived</td>
+<td></td>
+</tr>
+<tr>
+<td>project:tasks_updated</td>
+<td></td>
+</tr>
+<tr>
+<td>label:added</td>
+<td></td>
+</tr>
+<tr>
+<td>label:deleted</td>
+<td></td>
+</tr>
+<tr>
+<td>label:updated</td>
+<td></td>
+</tr>
+<tr>
+<td>filter:added</td>
+<td></td>
+</tr>
+<tr>
+<td>filter:deleted</td>
+<td></td>
+</tr>
+<tr>
+<td>filter:updated</td>
+<td></td>
+</tr>
+<tr>
+<td>notification:added</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='payloads'>Payloads</h2>
+<p>Each webhook events is delivered as an JSON object in a HTTP POST request. The event JSON object follow the general structure:</p>
+
+<p><code class="prettyprint">{&quot;event_name&quot;: &quot;...&quot;, &quot;user_id&quot;=..., &quot;event_data&quot;: {...}}</code></p>
+
+<p>The structure of &ldquo;event_data&rdquo; object varies depending on the type of event it is. For instance, if it is a &ldquo;item:added&rdquo; event notification, 
+The &ldquo;event_data&rdquo; will represents the newly added item.</p>
+
+<blockquote>
+<p>Example Delivery</p>
+</blockquote>
+<pre class="highlight plaintext"><code>POST /payload HTTP/1.1
+
+Host: your_callback_url_host
+Content-Type: application/json
+
+{
+  "event_name": "item:added",
+  "user_id": 1234,
+  "event_data": {
+    "due_date": null,
+    "day_order": -1,
+    "assigned_by_uid": 1855589,
+    "is_archived": 0,
+    "labels": [],
+    "sync_id": null,
+    "in_history": 0,
+    "has_notifications": 0,
+    "indent": 1,
+    "checked": 0,
+    "date_added": "Fri 26 Sep 2014 08:25:05 +0000",
+    "id": 33511505,
+    "content": "Task1",
+    "user_id": 1855589,
+    "due_date_utc": null,
+    "children": null,
+    "priority": 1,
+    "item_order": 1,
+    "is_deleted": 0,
+    "responsible_uid": null,
+    "project_id": 128501470,
+    "collapsed": 0,
+    "date_string": ""
+  }
+}
+</code></pre>
+
     </div>
     <div class="dark-box">
         <div class="lang-selector">
