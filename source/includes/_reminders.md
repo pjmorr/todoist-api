@@ -38,8 +38,9 @@ id | The id of the reminder.
 item_id | The item id for which the reminder is about.
 service | The way to get notified of the reminder: `email` for e-mail, `sms` for mobile text message, or `push` for mobile push notification.
 type | The type of the reminder: `relative` for a time-based reminder specified in minutes from now, `absolute` for a time-based reminder with a specific time and date in the future, and `location` for a location-based reminder.
-due_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM`, example: `2012-3-24T23:59`. Value of `due_date_utc` must be in UTC. If you want to pass in due dates, note that `date_string` is required, while `due_date_utc` (`due_date`) can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user's profile settings.
+due_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM`, example: `2012-3-24T23:59`. Value of `due_date_utc` must be in UTC. If you want to pass in due dates, note that `date_string` is required, while `due_date_utc` can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user's profile settings.
 date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/timeInsert).
+date_lang | The language of the date_string.
 notify_uid | The user id which should be notified of the reminder, typically the current user id creating the reminder.
 
 ## Add a reminder
@@ -116,8 +117,9 @@ Argument | Description
 service | The way to get notified of the reminder: `email` for e-mail, `sms` for mobile text message, or `push` for mobile push notification.
 type | The type of the reminder: `relative` for a time-based reminder specified in minutes from now, `absolute` for a time-based reminder with a specific time and date in the future, and `location` for a location-based reminder.
 minute_offset | The relative time in minutes before the due date of the item, in which the reminder should be triggered. Note, that the item should have a due date set in order to add a relative reminder.
-due_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM`, example: `2012-3-24T23:59`. Value of `due_date_utc` must be in UTC. If you want to pass in due dates, note that `date_string` is required, while `due_date_utc` (`due_date`) can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user's profile settings.
+due_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM`, example: `2012-3-24T23:59`. Value of `due_date_utc` must be in UTC. If you want to pass in due dates, note that `date_string` is required, while `due_date_utc` can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user's profile settings.
 date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/timeInsert).
+date_lang | The language of the date_string.
 notify_uid | The user id which should be notified of the reminder, typically the current user id creating the reminder.
 name | An alias name for the location.
 loc_lat | The location latitude.
@@ -159,8 +161,9 @@ id | The id of the filter.
 Argument | Description
 -------- | -----------
 minute_offset | The relative time in minutes from the current time in which the reminder should be triggered.
-due_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM`, example: `2012-3-24T23:59`. Value of `due_date_utc` must be in UTC. If you want to pass in due dates, note that `date_string` is required, while `due_date_utc` (`due_date`) can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user's profile settings.
+due_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM`, example: `2012-3-24T23:59`. Value of `due_date` must be in UTC. If you want to pass in due dates, note that `date_string` is required, while `due_date` (`due_date`) can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user's profile settings.
 date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/timeInsert).
+date_lang | The language of the date_string.
 notify_uid | The user id which should be notified of the reminder, typically the current user id creating the reminder.
 type | The type of the reminder: `relative` for a time-based reminder specified in minutes from now, `absolute` for a time-based reminder with a specific time and date in the future, and `location` for a location-based reminder.
 name | An alias name for the location.
@@ -197,3 +200,24 @@ Delete a reminder.
 Argument | Description
 -------- | -----------
 id | The id of the filter.
+
+
+## Clear the locations
+
+```shell
+$ curl https://todoist.com/API/v6/sync -X POST \
+    -d token=0123456789abcdef0123456789abcdef01234567 \
+    -d commands='[{"type": "clear_locations", "uuid": "d285ae02-80c6-477c-bfa9-45272d7bddfb", "args": {}}]'
+{ ...
+  "SyncStatus": {"d285ae02-80c6-477c-bfa9-45272d7bddfb": "ok"},
+  ... }
+```
+
+```python
+>>> import todoist
+>>> api = todoist.TodoistAPI('0123456789abcdef0123456789abcdef01234567')
+>>> reminder = api.locations.clear()
+>>> api.commit()
+```
+
+Clears the locations list, which is used for the location reminders.
