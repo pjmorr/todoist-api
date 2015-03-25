@@ -5383,7 +5383,7 @@ HTTP GET https://your_callback_url?challenge=GJ12X4D1IGJXB
 </code></p>
 </blockquote>
 
-<p>After you enter the webhook callback URL and save the setting, we will send a verification request to the callback URL to verify that the endpoint belongs to you. It would be a HTTP GET request with a <code class="prettyprint">challenge</code> query paramter that contains a random hash string. </p>
+<p>After you enter the webhook callback URL and save the setting, we will send a verification request to the callback URL to verify that the endpoint belongs to you. It would be a HTTP GET request with a <code class="prettyprint">challenge</code> query paramter that contains a random hex string. </p>
 
 <p>Upon receiving such a request, your callback URL endpoint must return a HTTP 200 response with the same <code class="prettyprint">challenge</code> text in the response body to complete the verification process. Once the verification is completed, your app&rsquo;s &ldquo;Webhook Status&rdquo; field should become &ldquo;Active&rdquo;, and you will start receiving webhook event notification from all your app users.</p>
 <h3 id='events'>Events</h3>
@@ -5395,10 +5395,6 @@ HTTP GET https://your_callback_url?challenge=GJ12X4D1IGJXB
 <th>Description</th>
 </tr>
 </thead><tbody>
-<tr>
-<td>all</td>
-<td></td>
-</tr>
 <tr>
 <td>item:added</td>
 <td></td>
@@ -5452,10 +5448,6 @@ HTTP GET https://your_callback_url?challenge=GJ12X4D1IGJXB
 <td></td>
 </tr>
 <tr>
-<td>project:tasks_updated</td>
-<td></td>
-</tr>
-<tr>
 <td>label:added</td>
 <td></td>
 </tr>
@@ -5479,13 +5471,9 @@ HTTP GET https://your_callback_url?challenge=GJ12X4D1IGJXB
 <td>filter:updated</td>
 <td></td>
 </tr>
-<tr>
-<td>notification:added</td>
-<td></td>
-</tr>
 </tbody></table>
-<h2 id='payloads'>Payloads</h2>
-<p>Each webhook events is delivered as an JSON object in a HTTP POST request. The event JSON object follow the general structure:</p>
+<h2 id='event-structure--delivery'>Event Structure / Delivery</h2><h3 id='event-json-object'>Event JSON Object</h3>
+<p>Each webhook event is structured as a JSON object. The event JSON object follow the general structure:</p>
 
 <p><code class="prettyprint">{&quot;event_name&quot;: &quot;...&quot;, &quot;user_id&quot;=..., &quot;event_data&quot;: {...}}</code></p>
 
@@ -5499,37 +5487,78 @@ The &ldquo;event_data&rdquo; will represents the newly added item.</p>
 
 Host: your_callback_url_host
 Content-Type: application/json
+X-Todoist-Hmac-SHA256: UEEq9si3Vf9yRSrLthbpazbb69kP9+CZQ7fXmVyjhPs=
 
-{
-  "event_name": "item:added",
-  "user_id": 1234,
-  "event_data": {
-    "due_date": null,
-    "day_order": -1,
-    "assigned_by_uid": 1855589,
-    "is_archived": 0,
-    "labels": [],
-    "sync_id": null,
-    "in_history": 0,
-    "has_notifications": 0,
-    "indent": 1,
-    "checked": 0,
-    "date_added": "Fri 26 Sep 2014 08:25:05 +0000",
-    "id": 33511505,
-    "content": "Task1",
-    "user_id": 1855589,
-    "due_date_utc": null,
-    "children": null,
-    "priority": 1,
-    "item_order": 1,
-    "is_deleted": 0,
-    "responsible_uid": null,
-    "project_id": 128501470,
-    "collapsed": 0,
-    "date_string": ""
-  }
+[
+  {
+    "event_name": "item:added",
+    "user_id": 1234,
+    "event_data": {
+      "due_date": null,
+      "day_order": -1,
+      "assigned_by_uid": 1855589,
+      "is_archived": 0,
+      "labels": [],
+      "sync_id": null,
+      "in_history": 0,
+      "has_notifications": 0,
+      "indent": 1,
+      "checked": 0,
+      "date_added": "Fri 26 Sep 2014 08:25:05 +0000",
+      "id": 33511505,
+      "content": "Task1",
+      "user_id": 1855589,
+      "due_date_utc": null,
+      "children": null,
+      "priority": 1,
+      "item_order": 1,
+      "is_deleted": 0,
+      "responsible_uid": null,
+      "project_id": 128501470,
+      "collapsed": 0,
+      "date_string": ""
+    }
+  },
+  {
+    "event_name": "item:updated",
+    "user_id": 528,
+    "event_data": {
+      "due_date": null,
+      "day_order": -1,
+      "assigned_by_uid": 1855589,
+      "is_archived": 0,
+      "labels": [],
+      "sync_id": null,
+      "in_history": 0,
+      "has_notifications": 0,
+      "indent": 1,
+      "checked": 0,
+      "date_added": "Fri 26 Sep 2014 08:25:05 +0000",
+      "id": 43311505,
+      "content": "Task1",
+      "user_id": 1855589,
+      "due_date_utc": null,
+      "children": null,
+      "priority": 1,
+      "item_order": 1,
+      "is_deleted": 0,
+      "responsible_uid": null,
+      "project_id": 223501470,
+      "collapsed": 0,
+      "date_string": ""
+    }
+  },
+  ...
 }
 </code></pre>
+<h3 id='event-delivery'>Event Delivery</h3>
+<p>When your subscribed webhook events occourred, we will deliver event notification to your configured &ldquo;Webhook Callback URL&rdquo;. 
+It will be a HTTP POST request, with <code class="prettyprint">Content-Type: application/json</code>. Notice that it will be a <strong>JSON array</strong> because we might 
+deliver multiple event notification (could be from different users) at once.</p>
+<h3 id='payload-verification'>Payload Verification</h3>
+<p>To verify each webhook request is sent by us, we include a <strong>X-Todoist-Hmac-SHA256</strong> header which contains a SHA256 Hmac 
+that is generated using <code class="prettyprint">client_secret</code> as key and the whole request payload as message. The resulting Hmac is encoded as 
+a base64 string.</p>
 
     </div>
     <div class="dark-box">
