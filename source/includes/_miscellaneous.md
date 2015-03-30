@@ -463,6 +463,7 @@ Add a new task to a project.  Note, that this is provided as a helper method, a 
 Parameter | Description
 --------- | -----------
 token | The user's token (received on login).
+content | The text of the task.
 
 ### Optional parameters
 
