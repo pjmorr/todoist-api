@@ -155,3 +155,10 @@ deliver multiple event notification (could be from different users) at once.
 To verify each webhook request is sent by us, we include a __X-Todoist-Hmac-SHA256__ header which contains a SHA256 Hmac 
 that is generated using `client_secret` as key and the whole request payload as message. The resulting Hmac is encoded as 
 a base64 string.
+
+
+### Failed Delivery
+When a event notification failed to be delivered to your "Webhook Callback URL" endpoint (i.e. due to server error, network failure, incorrect response...etc), 
+it will be redelivered after 30 mins (1hr and 1.5hr for the second and the third retry respectively), and each notification would be redelivered for maximum of 3 times.
+
+__Your callback endpoint must respond with a HTTP 200 when receiving a event notification request.__ Response other than HTTP 200 will be considered as failed delivery, and the notification will be redelivered again.
