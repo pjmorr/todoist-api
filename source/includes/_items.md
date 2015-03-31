@@ -310,7 +310,7 @@ restore_state | A dictionary, where item id is the key, and its value is a list 
 ```shell
 $ curl https://todoist.com/API/v6/sync -X POST \
     -d token=0123456789abcdef0123456789abcdef01234567 \
-    -d commands='[{"type": "item_update_date_complete", "uuid": "c5888360-96b1-46be-aaac-b49b1135feab", "args": {"id": 33548400, "due_date": "2014-10-30T23:59", "date_string": "every day", "is_forward": 1}}]'
+    -d commands='[{"type": "item_update_date_complete", "uuid": "c5888360-96b1-46be-aaac-b49b1135feab", "args": {"id": 33548400, "new_date_utc": "2014-10-30T23:59", "date_string": "every day", "is_forward": 1}}]'
 { ...
   "SyncStatus": {"c5888360-96b1-46be-aaac-b49b1135feab": "ok"},
   ... }
@@ -330,9 +330,8 @@ Complete a recurring task, and the reason why this is a special case is because 
 Argument | Description
 -------- | -----------
 id | The id of the item to update.
-due_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM` (in UTC).
+new_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM` (in UTC).
 date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/timeInsert).
-date_lang | The language of the date_string.
 is_forward | Indicates if it's a complete `1` or uncomplete `0`.
 
 ## Update multiple orders/indents

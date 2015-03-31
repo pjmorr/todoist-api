@@ -1927,7 +1927,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </blockquote>
 <pre class="highlight shell"><code><span class="gp">$ </span>curl https://todoist.com/API/v6/sync -X POST <span class="se">\</span>
     -d <span class="nv">token</span><span class="o">=</span>0123456789abcdef0123456789abcdef01234567 <span class="se">\</span>
-    -d <span class="nv">commands</span><span class="o">=</span><span class="s1">'[{"type": "item_update_date_complete", "uuid": "c5888360-96b1-46be-aaac-b49b1135feab", "args": {"id": 33548400, "due_date": "2014-10-30T23:59", "date_string": "every day", "is_forward": 1}}]'</span>
+    -d <span class="nv">commands</span><span class="o">=</span><span class="s1">'[{"type": "item_update_date_complete", "uuid": "c5888360-96b1-46be-aaac-b49b1135feab", "args": {"id": 33548400, "new_date_utc": "2014-10-30T23:59", "date_string": "every day", "is_forward": 1}}]'</span>
 <span class="o">{</span> ...
   <span class="s2">"SyncStatus"</span>: <span class="o">{</span><span class="s2">"c5888360-96b1-46be-aaac-b49b1135feab"</span>: <span class="s2">"ok"</span><span class="o">}</span>,
   ... <span class="o">}</span>
@@ -1951,16 +1951,12 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <td>The id of the item to update.</td>
 </tr>
 <tr>
-<td>due_date_utc</td>
+<td>new_date_utc</td>
 <td>Should be formatted as <code class="prettyprint">YYYY-MM-DDTHH:MM</code> (in UTC).</td>
 </tr>
 <tr>
 <td>date_string</td>
 <td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/timeInsert">which formats are supported</a>.</td>
-</tr>
-<tr>
-<td>date_lang</td>
-<td>The language of the date_string.</td>
 </tr>
 <tr>
 <td>is_forward</td>
