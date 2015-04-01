@@ -378,7 +378,7 @@ $ curl https://todoist.com/API/v6/get_all_completed_items \
 }
 ```
 
-Get all the user's completed items (tasks).
+Get all the user's completed items (tasks). Only available for Todoist Premium users.
 
 ### Required parameters
 
