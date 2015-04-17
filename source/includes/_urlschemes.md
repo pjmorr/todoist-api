@@ -59,7 +59,7 @@ The `todoist://addtask` scheme accepts the following optional values:
 Value | Description
 ----  | -----------
 content | The content of the task, which should be a string that in `Percent-encoding` (also known as URL encoding).
-date | The due date of the task, which should be a string that in `Percent-encoding` (also known as URL encoding). Look at our reference to see [which formats are supported](https://todoist.com/Help/timeInsert).
+date | The due date of the task, which should be a string that in `Percent-encoding` (also known as URL encoding). Look at our reference to see [which formats are supported](https://todoist.com/Help/DatesTimes).
 priority | The priority of the task, which should be a string with a value from `1` to `4`.
 
 If all the values are empty, it will just open the add task view. This URL Scheme will not automatically add the task to Todoist, it will just open the add task view and fill the fields.
