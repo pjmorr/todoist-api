@@ -26,6 +26,8 @@
 }
 ```
 
+Filters are only available for Todoist Premium users.
+
 ### Properties
 
 Property | Description

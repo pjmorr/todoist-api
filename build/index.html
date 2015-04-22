@@ -2071,14 +2071,18 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <td>color</td>
 <td>The color of the label.</td>
 </tr>
+<tr>
+<td>item_order</td>
+<td>Label’s order in the label list.</td>
+</tr>
 </tbody></table>
-<h2 id='register-a-label'>Register a label</h2>
+<h2 id='add-a-label'>Add a label</h2>
 <blockquote>
-<p>An example of registering a label:</p>
+<p>An example of adding a label:</p>
 </blockquote>
 <pre class="highlight shell"><code><span class="gp">$ </span>curl https://todoist.com/API/v6/sync -X POST <span class="se">\</span>
     -d <span class="nv">token</span><span class="o">=</span>0123456789abcdef0123456789abcdef01234567 <span class="se">\</span>
-    -d <span class="nv">commands</span><span class="o">=</span><span class="s1">'[{"type": "label_register", "temp_id": "f2f182ed-89fa-4bbb-8a42-ec6f7aa47fd0", "uuid": "ba204343-03a4-41ff-b964-95a102d12b35", "args": {"name": "Label1"}}]'</span>
+    -d <span class="nv">commands</span><span class="o">=</span><span class="s1">'[{"type": "label_add", "temp_id": "f2f182ed-89fa-4bbb-8a42-ec6f7aa47fd0", "uuid": "ba204343-03a4-41ff-b964-95a102d12b35", "args": {"name": "Label1"}}]'</span>
 <span class="o">{</span> ...
   <span class="s2">"SyncStatus"</span>: <span class="o">{</span><span class="s2">"ba204343-03a4-41ff-b964-95a102d12b35"</span>: <span class="s2">"ok"</span><span class="o">}</span>,
   <span class="s2">"TempIdMapping"</span>: <span class="o">{</span><span class="s2">"f2f182ed-89fa-4bbb-8a42-ec6f7aa47fd0"</span>: 1234<span class="o">}</span>,
@@ -2086,11 +2090,11 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </code></pre>
 <pre class="highlight python"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">todoist</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">api</span> <span class="o">=</span> <span class="n">todoist</span><span class="o">.</span><span class="n">TodoistAPI</span><span class="p">(</span><span class="s">'0123456789abcdef0123456789abcdef01234567'</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">label</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s">'Label1'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">label</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">'Label1'</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">api</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 </code></pre>
 
-<p>Register a label.</p>
+<p>Add a label.</p>
 <h3 id='required-arguments'>Required arguments</h3>
 <table><thead>
 <tr>
@@ -2114,6 +2118,10 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <td>color</td>
 <td>The color of the label.</td>
 </tr>
+<tr>
+<td>item_order</td>
+<td>Label’s order in the label list.</td>
+</tr>
 </tbody></table>
 <h2 id='update-a-label'>Update a label</h2>
 <blockquote>
@@ -2133,7 +2141,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">api</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 </code></pre>
 
-<p>Update a registered label.</p>
+<p>Update a label.</p>
 <h3 id='required-arguments'>Required arguments</h3>
 <table><thead>
 <tr>
@@ -2160,6 +2168,10 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <tr>
 <td>color</td>
 <td>The color of the label.</td>
+</tr>
+<tr>
+<td>item_order</td>
+<td>Label’s order in the label list.</td>
 </tr>
 </tbody></table>
 <h2 id='delete-a-label'>Delete a label</h2>
@@ -2190,7 +2202,40 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </thead><tbody>
 <tr>
 <td>id</td>
-<td>The id of the bel</td>
+<td>The id of the label.</td>
+</tr>
+</tbody></table>
+<h2 id='update-multiple-orders'>Update multiple orders</h2>
+<blockquote>
+<p>An example of updating the orders of multiple labels at once:</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="gp">$ </span>curl https://todoist.com/API/v6/sync -X POST <span class="se">\</span>
+    -d <span class="nv">token</span><span class="o">=</span>0123456789abcdef0123456789abcdef01234567 <span class="se">\</span>
+    -d <span class="nv">commands</span><span class="o">=[{</span><span class="s2">"type"</span>: <span class="s2">"label_update_orders"</span>, <span class="s2">"uuid"</span>: <span class="s2">"1402a911-5b7a-4beb-bb1f-fb9e1ed798fb"</span>, <span class="s2">"args"</span>: <span class="o">{</span><span class="s2">"id_order_mapping"</span>: <span class="o">{</span><span class="s2">"1234"</span>:  1, <span class="s2">"5678"</span>: 2<span class="o">}}}]</span><span class="s1">'
+{ ...
+  "SyncStatus": {
+    "517560cc-f165-4ff6-947b-3adda8aef744": {
+      "1234": "ok",
+      "5678": "ok"
+    }
+  },
+  ... }
+</span></code></pre>
+<pre class="highlight python"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">todoist</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">api</span> <span class="o">=</span> <span class="n">todoist</span><span class="o">.</span><span class="n">TodoistAPI</span><span class="p">(</span><span class="s">'0123456789abcdef0123456789abcdef01234567'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">api</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">update_orders</span><span class="p">({</span><span class="mi">1234</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5678</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">api</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</code></pre>
+<h3 id='required-arguments'>Required arguments</h3>
+<table><thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id_order_mapping</td>
+<td>A dictionary, where a label id is the key, and the order its value: <code class="prettyprint">label_id: order</code>.</td>
 </tr>
 </tbody></table>
 
@@ -2635,6 +2680,8 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
   <span class="s">'id'</span><span class="p">:</span> <span class="mi">4638878</span>
 <span class="p">}</span>
 </code></pre>
+
+<p>Filters are only available for Todoist Premium users.</p>
 <h3 id='properties'>Properties</h3>
 <table><thead>
 <tr>
