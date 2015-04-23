@@ -600,7 +600,8 @@ are not related to the full model, but are nonetheless useful.</p>
 </blockquote>
 <pre class="highlight shell"><code><span class="gp">$ </span>curl https://todoist.com/API/v6/sync -X POST <span class="se">\</span>
     -d <span class="nv">token</span><span class="o">=</span>0123456789abcdef0123456789abcdef01234567 <span class="se">\</span>
-    -d <span class="nv">seq_no</span><span class="o">=</span>0
+    -d <span class="nv">seq_no</span><span class="o">=</span>0 <span class="se">\</span>
+    -d <span class="nv">seq_no_global</span><span class="o">=</span>0 <span class="se">\</span>
     -d <span class="nv">resource_types</span><span class="o">=</span><span class="s1">'["all"]'</span>
 <span class="o">{</span>
   <span class="s2">"seq_no_global"</span>: 2180537512,
@@ -862,6 +863,10 @@ are not related to the full model, but are nonetheless useful.</p>
 <td>Sequence number. On the initial request you should pass <code class="prettyprint">0</code>. On all other requests you should pass the last <code class="prettyprint">seq_no</code> you received from the server.</td>
 </tr>
 <tr>
+<td>seq_no_global</td>
+<td>Global sequence number. On the initial request you should pass <code class="prettyprint">0</code>. On all other requests you should pass the last <code class="prettyprint">seq_no_global</code> you received from the server.</td>
+</tr>
+<tr>
 <td>resource_types</td>
 <td>An optional parameter which is useful if you don&rsquo;t need a complete result, but want to have just a subset. It can be useful for speeding up the load of most important user&rsquo;s data (like the list of projects and tasks) and to get the rest of the data asynchronously later on. It should be a JSON-encoded list of strings. For example, <code class="prettyprint">[&quot;projects&quot;, &quot;labels&quot;, &quot;filters&quot;]</code>. Below is the list of recognizable values for strings: <code class="prettyprint">projects</code> for the list of projects, <code class="prettyprint">items</code> for list of tasks, <code class="prettyprint">labels</code> for the list of labels, <code class="prettyprint">notes</code> for the list of notes, <code class="prettyprint">filters</code> for the list of filters, <code class="prettyprint">reminders</code> for the list of reminders, <code class="prettyprint">locations</code> for the list of locations, <code class="prettyprint">user</code> for the user&rsquo;s details, <code class="prettyprint">live_notifications</code> for the list of live notifications, <code class="prettyprint">day_orders</code> for the list of day orders, <code class="prettyprint">collaborators</code> for the list of collaborators, and <code class="prettyprint">all</code> for all the above.  In order to include the notification settings (that is needed on platforms that implement native notifications), the <code class="prettyprint">notification_settings</code> has to explicitly be included in the list of resource types.</td>
 </tr>
@@ -889,7 +894,7 @@ are not related to the full model, but are nonetheless useful.</p>
 </thead><tbody>
 <tr>
 <td>Users</td>
-<td>A JSON object with a user&rsquo;s information. Only included if <code class="prettyprint">seq_no</code> is different.</td>
+<td>A JSON object with a user&rsquo;s information.</td>
 </tr>
 <tr>
 <td>Projects</td>
@@ -929,19 +934,15 @@ are not related to the full model, but are nonetheless useful.</p>
 </tr>
 <tr>
 <td>LiveNotifications</td>
-<td>A JSON list of notifications for the user. On the initial request (<code class="prettyprint">seq_no=0</code>) all notifications are returned. Afterwards only the updated.</td>
+<td>A JSON list of notifications for the user.</td>
 </tr>
 <tr>
 <td>LiveNotificationsLastRead</td>
-<td>What is the last <code class="prettyprint">seq_no</code> the user has seen? This is used to implement unread notifications.</td>
-</tr>
-<tr>
-<td>Settings</td>
-<td>Includes user&rsquo;s settings as a JSON object, including things like start page query and timezone information. Only included if <code class="prettyprint">seq_no</code> is different.</td>
+<td>What is the last live notification the user has seen? This is used to implement unread notifications.</td>
 </tr>
 <tr>
 <td>SettingsNotifications</td>
-<td>This is needed on platforms that implement native notifications. Only included if <code class="prettyprint">seq_no</code> is different.</td>
+<td>This is needed on platforms that implement native notifications.</td>
 </tr>
 </tbody></table>
 <h2 id='send-data'>Send data</h2>
