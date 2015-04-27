@@ -7,7 +7,8 @@
 ```shell
 $ curl https://todoist.com/API/v6/sync -X POST \
     -d token=0123456789abcdef0123456789abcdef01234567 \
-    -d seq_no=0
+    -d seq_no=0 \
+    -d seq_no_global=0 \
     -d resource_types='["all"]'
 {
   "seq_no_global": 2180537512,
@@ -262,6 +263,7 @@ Parameter | Description
 --------- | -----------
 token | User's API token (returned on successful login). Else the session cookie is used.
 seq_no | Sequence number. On the initial request you should pass `0`. On all other requests you should pass the last `seq_no` you received from the server.
+seq_no_global | Global sequence number. On the initial request you should pass `0`. On all other requests you should pass the last `seq_no_global` you received from the server.
 resource_types | An optional parameter which is useful if you don't need a complete result, but want to have just a subset. It can be useful for speeding up the load of most important user's data (like the list of projects and tasks) and to get the rest of the data asynchronously later on. It should be a JSON-encoded list of strings. For example, `["projects", "labels", "filters"]`. Below is the list of recognizable values for strings: `projects` for the list of projects, `items` for list of tasks, `labels` for the list of labels, `notes` for the list of notes, `filters` for the list of filters, `reminders` for the list of reminders, `locations` for the list of locations, `user` for the user's details, `live_notifications` for the list of live notifications, `day_orders` for the list of day orders, `collaborators` for the list of collaborators, and `all` for all the above.  In order to include the notification settings (that is needed on platforms that implement native notifications), the `notification_settings` has to explicitly be included in the list of resource types.
 
 ### Optional parameters
@@ -276,7 +278,7 @@ A brief explanation of what each object returned contains, while each of them wi
 
 Data | Description
 ---- | -----------
-Users | A JSON object with a user's information. Only included if `seq_no` is different.
+Users | A JSON object with a user's information.
 Projects |  A list of JSON objects of projects.
 Items | A JSON list of objects of items.
 Labels | A JSON list of objects (including things like color, id etc.)
@@ -286,10 +288,9 @@ DayOrdersTimestamp | A string specifying when day orders where last updated. Use
 Reminders |  A JSON list containing all reminders for all items in the project.
 Collaborators | A JSON object containing all collaborators for all shared projects. The `projects` field contains the list of all shared projects, where the user acts as one of collaborators.
 CollaboratorsStates | A JSON list specifying the state of each collaborator in each project. The state can be invited, active, inactive, deleted.
-LiveNotifications | A JSON list of notifications for the user. On the initial request (`seq_no=0`) all notifications are returned. Afterwards only the updated.
-LiveNotificationsLastRead | What is the last `seq_no` the user has seen? This is used to implement unread notifications.
-Settings | Includes user's settings as a JSON object, including things like start page query and timezone information. Only included if `seq_no` is different.
-SettingsNotifications | This is needed on platforms that implement native notifications. Only included if `seq_no` is different.
+LiveNotifications | A JSON list of notifications for the user.
+LiveNotificationsLastRead | What is the last live notification the user has seen? This is used to implement unread notifications.
+SettingsNotifications | This is needed on platforms that implement native notifications.
 
 ## Send data
 

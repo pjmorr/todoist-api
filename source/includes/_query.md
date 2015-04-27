@@ -196,7 +196,7 @@ You can query after date, priority or labels.
 Argument | Description
 -------- | -----------
 token | The user's token (received on login).
-queries | A JSON list of queries to search. [Examples of searches](https://todoist.com/Help/timeQuery) can be found in the Todoist help page.
+queries | A JSON list of queries to search. [Examples of searches](https://todoist.com/Help/Filtering) can be found in the Todoist help page.
 
 ### Optional arguments
 

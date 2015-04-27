@@ -29,15 +29,16 @@ Property | Description
 id | The id of the label.
 name| The name of the label.
 color | The color of the label.
+item_order | Label’s order in the label list.
 
-## Register a label
+## Add a label
 
-> An example of registering a label:
+> An example of adding a label:
 
 ```shell
 $ curl https://todoist.com/API/v6/sync -X POST \
     -d token=0123456789abcdef0123456789abcdef01234567 \
-    -d commands='[{"type": "label_register", "temp_id": "f2f182ed-89fa-4bbb-8a42-ec6f7aa47fd0", "uuid": "ba204343-03a4-41ff-b964-95a102d12b35", "args": {"name": "Label1"}}]'
+    -d commands='[{"type": "label_add", "temp_id": "f2f182ed-89fa-4bbb-8a42-ec6f7aa47fd0", "uuid": "ba204343-03a4-41ff-b964-95a102d12b35", "args": {"name": "Label1"}}]'
 { ...
   "SyncStatus": {"ba204343-03a4-41ff-b964-95a102d12b35": "ok"},
   "TempIdMapping": {"f2f182ed-89fa-4bbb-8a42-ec6f7aa47fd0": 1234},
@@ -47,11 +48,11 @@ $ curl https://todoist.com/API/v6/sync -X POST \
 ```python
 >>> import todoist
 >>> api = todoist.TodoistAPI('0123456789abcdef0123456789abcdef01234567')
->>> label = api.labels.register('Label1')
+>>> label = api.labels.add('Label1')
 >>> api.commit()
 ```
 
-Register a label.
+Add a label.
 
 ### Required arguments
 
@@ -64,6 +65,7 @@ name | The name of the label.
 Argument | Description
 -------- | -----------
 color | The color of the label.
+item_order | Label’s order in the label list.
 
 ## Update a label
 
@@ -86,7 +88,7 @@ $ curl https://todoist.com/API/v6/sync -X POST \
 >>> api.commit()
 ```
 
-Update a registered label.
+Update a label.
 
 ### Required arguments
 
@@ -100,6 +102,7 @@ Argument | Description
 -------- | -----------
 name | The name of the label.
 color | The color of the label.
+item_order | Label’s order in the label list.
 
 ## Delete a label
 
@@ -128,4 +131,35 @@ Delete a label.
 
 Argument | Description
 -------- | -----------
-id | The id of the bel
+id | The id of the label.
+
+## Update multiple orders
+
+> An example of updating the orders of multiple labels at once:
+
+```shell
+$ curl https://todoist.com/API/v6/sync -X POST \
+    -d token=0123456789abcdef0123456789abcdef01234567 \
+    -d commands=[{"type": "label_update_orders", "uuid": "1402a911-5b7a-4beb-bb1f-fb9e1ed798fb", "args": {"id_order_mapping": {"1234":  1, "5678": 2}}}]'
+{ ...
+  "SyncStatus": {
+    "517560cc-f165-4ff6-947b-3adda8aef744": {
+      "1234": "ok",
+      "5678": "ok"
+    }
+  },
+  ... }
+```
+
+```python
+>>> import todoist
+>>> api = todoist.TodoistAPI('0123456789abcdef0123456789abcdef01234567')
+>>> api.labels.update_orders({1234: 1, 5678: 2})
+>>> api.commit()
+```
+
+### Required arguments
+
+Argument | Description
+-------- | -----------
+id_order_mapping| A dictionary, where a label id is the key, and the order its value: `label_id: order`.

@@ -378,7 +378,7 @@ $ curl https://todoist.com/API/v6/get_all_completed_items \
 }
 ```
 
-Get all the user's completed items (tasks).
+Get all the user's completed items (tasks). Only available for Todoist Premium users.
 
 ### Required parameters
 
@@ -470,7 +470,7 @@ content | The text of the task.
 Parameter | Description
 --------- | -----------
 project_id | The id of the project to add the task to (defaults to `Inbox` project).
-date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/timeInsert).
+date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/DatesTimes).
 priority | The priority of the task (a number between `1` and `4`, `4` for very urgent and `1` for natural).
 indent | The indent of the item (a number between `1` and `4`, where `1` is top-level).
 item_order | The order of the task.

@@ -66,7 +66,7 @@ id | Unique task id.
 user_id | The owner of the task.
 content | The text of the task.
 project_id | The id of the project to add the task to.
-date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/timeInsert).
+date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/DatesTimes).
 date_lang | The language of the date_string.
 due_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM`, example: `2012-3-24T23:59`. Value of `due_date_utc` must be in UTC. If you want to pass in due dates, note that `date_string` is required, while `due_date_utc` can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user's profile settings.
 in_history | If set to `1`, the task is marked completed.
@@ -116,7 +116,7 @@ Argument | Description
 -------- | -----------
 priority | The priority of the task (a number between `1` and `4`, `4` for very urgent and `1` for natural).
 indent | The indent of the item (a number between `1` and `4`, where `1` is top-level).
-date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/timeInsert).
+date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/DatesTimes).
 date_lang | The language of the date_string.
 due_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM`, example: `2012-3-24T23:59`. Value of `due_date_utc` must be in UTC. If you want to pass in due dates, note that `date_string` is required, while `due_date_utc` can be omitted. If date_string is provided, it will be parsed as local timestamp, and converted to UTC internally, according to the user's profile settings.
 item_order | The order of the task.
@@ -159,7 +159,7 @@ id | The id of the item to update.
 Argument | Description
 -------- | -----------
 content | The text of the task.
-date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/timeInsert).
+date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/DatesTimes).
 date_lang | The language of the date_string.
 priority | The priority of the task (a number between `1` and `4`, `4` for very urgent and `1` for natural).
 indent | The indent of the item (a number between `1` and `4`, where `1` is top-level).
@@ -310,7 +310,7 @@ restore_state | A dictionary, where item id is the key, and its value is a list 
 ```shell
 $ curl https://todoist.com/API/v6/sync -X POST \
     -d token=0123456789abcdef0123456789abcdef01234567 \
-    -d commands='[{"type": "item_update_date_complete", "uuid": "c5888360-96b1-46be-aaac-b49b1135feab", "args": {"id": 33548400, "due_date": "2014-10-30T23:59", "date_string": "every day", "is_forward": 1}}]'
+    -d commands='[{"type": "item_update_date_complete", "uuid": "c5888360-96b1-46be-aaac-b49b1135feab", "args": {"id": 33548400, "new_date_utc": "2014-10-30T23:59", "date_string": "every day", "is_forward": 1}}]'
 { ...
   "SyncStatus": {"c5888360-96b1-46be-aaac-b49b1135feab": "ok"},
   ... }
@@ -330,9 +330,13 @@ Complete a recurring task, and the reason why this is a special case is because 
 Argument | Description
 -------- | -----------
 id | The id of the item to update.
-due_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM` (in UTC).
-date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/timeInsert).
-date_lang | The language of the date_string.
+
+### Optional arguments
+
+Argument | Description
+-------- | -----------
+new_date_utc | Should be formatted as `YYYY-MM-DDTHH:MM` (in UTC).
+date_string | The date of the task, added in free form text, for example it can be `every day @ 10`. Look at our reference to see [which formats are supported](https://todoist.com/Help/DatesTimes).
 is_forward | Indicates if it's a complete `1` or uncomplete `0`.
 
 ## Update multiple orders/indents

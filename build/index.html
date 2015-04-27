@@ -600,7 +600,8 @@ are not related to the full model, but are nonetheless useful.</p>
 </blockquote>
 <pre class="highlight shell"><code><span class="gp">$ </span>curl https://todoist.com/API/v6/sync -X POST <span class="se">\</span>
     -d <span class="nv">token</span><span class="o">=</span>0123456789abcdef0123456789abcdef01234567 <span class="se">\</span>
-    -d <span class="nv">seq_no</span><span class="o">=</span>0
+    -d <span class="nv">seq_no</span><span class="o">=</span>0 <span class="se">\</span>
+    -d <span class="nv">seq_no_global</span><span class="o">=</span>0 <span class="se">\</span>
     -d <span class="nv">resource_types</span><span class="o">=</span><span class="s1">'["all"]'</span>
 <span class="o">{</span>
   <span class="s2">"seq_no_global"</span>: 2180537512,
@@ -862,6 +863,10 @@ are not related to the full model, but are nonetheless useful.</p>
 <td>Sequence number. On the initial request you should pass <code class="prettyprint">0</code>. On all other requests you should pass the last <code class="prettyprint">seq_no</code> you received from the server.</td>
 </tr>
 <tr>
+<td>seq_no_global</td>
+<td>Global sequence number. On the initial request you should pass <code class="prettyprint">0</code>. On all other requests you should pass the last <code class="prettyprint">seq_no_global</code> you received from the server.</td>
+</tr>
+<tr>
 <td>resource_types</td>
 <td>An optional parameter which is useful if you don&rsquo;t need a complete result, but want to have just a subset. It can be useful for speeding up the load of most important user&rsquo;s data (like the list of projects and tasks) and to get the rest of the data asynchronously later on. It should be a JSON-encoded list of strings. For example, <code class="prettyprint">[&quot;projects&quot;, &quot;labels&quot;, &quot;filters&quot;]</code>. Below is the list of recognizable values for strings: <code class="prettyprint">projects</code> for the list of projects, <code class="prettyprint">items</code> for list of tasks, <code class="prettyprint">labels</code> for the list of labels, <code class="prettyprint">notes</code> for the list of notes, <code class="prettyprint">filters</code> for the list of filters, <code class="prettyprint">reminders</code> for the list of reminders, <code class="prettyprint">locations</code> for the list of locations, <code class="prettyprint">user</code> for the user&rsquo;s details, <code class="prettyprint">live_notifications</code> for the list of live notifications, <code class="prettyprint">day_orders</code> for the list of day orders, <code class="prettyprint">collaborators</code> for the list of collaborators, and <code class="prettyprint">all</code> for all the above.  In order to include the notification settings (that is needed on platforms that implement native notifications), the <code class="prettyprint">notification_settings</code> has to explicitly be included in the list of resource types.</td>
 </tr>
@@ -889,7 +894,7 @@ are not related to the full model, but are nonetheless useful.</p>
 </thead><tbody>
 <tr>
 <td>Users</td>
-<td>A JSON object with a user&rsquo;s information. Only included if <code class="prettyprint">seq_no</code> is different.</td>
+<td>A JSON object with a user&rsquo;s information.</td>
 </tr>
 <tr>
 <td>Projects</td>
@@ -929,19 +934,15 @@ are not related to the full model, but are nonetheless useful.</p>
 </tr>
 <tr>
 <td>LiveNotifications</td>
-<td>A JSON list of notifications for the user. On the initial request (<code class="prettyprint">seq_no=0</code>) all notifications are returned. Afterwards only the updated.</td>
+<td>A JSON list of notifications for the user.</td>
 </tr>
 <tr>
 <td>LiveNotificationsLastRead</td>
-<td>What is the last <code class="prettyprint">seq_no</code> the user has seen? This is used to implement unread notifications.</td>
-</tr>
-<tr>
-<td>Settings</td>
-<td>Includes user&rsquo;s settings as a JSON object, including things like start page query and timezone information. Only included if <code class="prettyprint">seq_no</code> is different.</td>
+<td>What is the last live notification the user has seen? This is used to implement unread notifications.</td>
 </tr>
 <tr>
 <td>SettingsNotifications</td>
-<td>This is needed on platforms that implement native notifications. Only included if <code class="prettyprint">seq_no</code> is different.</td>
+<td>This is needed on platforms that implement native notifications.</td>
 </tr>
 </tbody></table>
 <h2 id='send-data'>Send data</h2>
@@ -1535,7 +1536,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </tr>
 <tr>
 <td>date_string</td>
-<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/timeInsert">which formats are supported</a>.</td>
+<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/DatesTimes">which formats are supported</a>.</td>
 </tr>
 <tr>
 <td>date_lang</td>
@@ -1638,7 +1639,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </tr>
 <tr>
 <td>date_string</td>
-<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/timeInsert">which formats are supported</a>.</td>
+<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/DatesTimes">which formats are supported</a>.</td>
 </tr>
 <tr>
 <td>date_lang</td>
@@ -1717,7 +1718,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </tr>
 <tr>
 <td>date_string</td>
-<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/timeInsert">which formats are supported</a>.</td>
+<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/DatesTimes">which formats are supported</a>.</td>
 </tr>
 <tr>
 <td>date_lang</td>
@@ -1927,7 +1928,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </blockquote>
 <pre class="highlight shell"><code><span class="gp">$ </span>curl https://todoist.com/API/v6/sync -X POST <span class="se">\</span>
     -d <span class="nv">token</span><span class="o">=</span>0123456789abcdef0123456789abcdef01234567 <span class="se">\</span>
-    -d <span class="nv">commands</span><span class="o">=</span><span class="s1">'[{"type": "item_update_date_complete", "uuid": "c5888360-96b1-46be-aaac-b49b1135feab", "args": {"id": 33548400, "due_date": "2014-10-30T23:59", "date_string": "every day", "is_forward": 1}}]'</span>
+    -d <span class="nv">commands</span><span class="o">=</span><span class="s1">'[{"type": "item_update_date_complete", "uuid": "c5888360-96b1-46be-aaac-b49b1135feab", "args": {"id": 33548400, "new_date_utc": "2014-10-30T23:59", "date_string": "every day", "is_forward": 1}}]'</span>
 <span class="o">{</span> ...
   <span class="s2">"SyncStatus"</span>: <span class="o">{</span><span class="s2">"c5888360-96b1-46be-aaac-b49b1135feab"</span>: <span class="s2">"ok"</span><span class="o">}</span>,
   ... <span class="o">}</span>
@@ -1950,17 +1951,21 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <td>id</td>
 <td>The id of the item to update.</td>
 </tr>
+</tbody></table>
+<h3 id='optional-arguments'>Optional arguments</h3>
+<table><thead>
 <tr>
-<td>due_date_utc</td>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>new_date_utc</td>
 <td>Should be formatted as <code class="prettyprint">YYYY-MM-DDTHH:MM</code> (in UTC).</td>
 </tr>
 <tr>
 <td>date_string</td>
-<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/timeInsert">which formats are supported</a>.</td>
-</tr>
-<tr>
-<td>date_lang</td>
-<td>The language of the date_string.</td>
+<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/DatesTimes">which formats are supported</a>.</td>
 </tr>
 <tr>
 <td>is_forward</td>
@@ -2067,14 +2072,18 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <td>color</td>
 <td>The color of the label.</td>
 </tr>
+<tr>
+<td>item_order</td>
+<td>Label’s order in the label list.</td>
+</tr>
 </tbody></table>
-<h2 id='register-a-label'>Register a label</h2>
+<h2 id='add-a-label'>Add a label</h2>
 <blockquote>
-<p>An example of registering a label:</p>
+<p>An example of adding a label:</p>
 </blockquote>
 <pre class="highlight shell"><code><span class="gp">$ </span>curl https://todoist.com/API/v6/sync -X POST <span class="se">\</span>
     -d <span class="nv">token</span><span class="o">=</span>0123456789abcdef0123456789abcdef01234567 <span class="se">\</span>
-    -d <span class="nv">commands</span><span class="o">=</span><span class="s1">'[{"type": "label_register", "temp_id": "f2f182ed-89fa-4bbb-8a42-ec6f7aa47fd0", "uuid": "ba204343-03a4-41ff-b964-95a102d12b35", "args": {"name": "Label1"}}]'</span>
+    -d <span class="nv">commands</span><span class="o">=</span><span class="s1">'[{"type": "label_add", "temp_id": "f2f182ed-89fa-4bbb-8a42-ec6f7aa47fd0", "uuid": "ba204343-03a4-41ff-b964-95a102d12b35", "args": {"name": "Label1"}}]'</span>
 <span class="o">{</span> ...
   <span class="s2">"SyncStatus"</span>: <span class="o">{</span><span class="s2">"ba204343-03a4-41ff-b964-95a102d12b35"</span>: <span class="s2">"ok"</span><span class="o">}</span>,
   <span class="s2">"TempIdMapping"</span>: <span class="o">{</span><span class="s2">"f2f182ed-89fa-4bbb-8a42-ec6f7aa47fd0"</span>: 1234<span class="o">}</span>,
@@ -2082,11 +2091,11 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </code></pre>
 <pre class="highlight python"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">todoist</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">api</span> <span class="o">=</span> <span class="n">todoist</span><span class="o">.</span><span class="n">TodoistAPI</span><span class="p">(</span><span class="s">'0123456789abcdef0123456789abcdef01234567'</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">label</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s">'Label1'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">label</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">'Label1'</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">api</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 </code></pre>
 
-<p>Register a label.</p>
+<p>Add a label.</p>
 <h3 id='required-arguments'>Required arguments</h3>
 <table><thead>
 <tr>
@@ -2110,6 +2119,10 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <td>color</td>
 <td>The color of the label.</td>
 </tr>
+<tr>
+<td>item_order</td>
+<td>Label’s order in the label list.</td>
+</tr>
 </tbody></table>
 <h2 id='update-a-label'>Update a label</h2>
 <blockquote>
@@ -2129,7 +2142,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">api</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 </code></pre>
 
-<p>Update a registered label.</p>
+<p>Update a label.</p>
 <h3 id='required-arguments'>Required arguments</h3>
 <table><thead>
 <tr>
@@ -2156,6 +2169,10 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <tr>
 <td>color</td>
 <td>The color of the label.</td>
+</tr>
+<tr>
+<td>item_order</td>
+<td>Label’s order in the label list.</td>
 </tr>
 </tbody></table>
 <h2 id='delete-a-label'>Delete a label</h2>
@@ -2186,7 +2203,40 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </thead><tbody>
 <tr>
 <td>id</td>
-<td>The id of the bel</td>
+<td>The id of the label.</td>
+</tr>
+</tbody></table>
+<h2 id='update-multiple-orders'>Update multiple orders</h2>
+<blockquote>
+<p>An example of updating the orders of multiple labels at once:</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="gp">$ </span>curl https://todoist.com/API/v6/sync -X POST <span class="se">\</span>
+    -d <span class="nv">token</span><span class="o">=</span>0123456789abcdef0123456789abcdef01234567 <span class="se">\</span>
+    -d <span class="nv">commands</span><span class="o">=[{</span><span class="s2">"type"</span>: <span class="s2">"label_update_orders"</span>, <span class="s2">"uuid"</span>: <span class="s2">"1402a911-5b7a-4beb-bb1f-fb9e1ed798fb"</span>, <span class="s2">"args"</span>: <span class="o">{</span><span class="s2">"id_order_mapping"</span>: <span class="o">{</span><span class="s2">"1234"</span>:  1, <span class="s2">"5678"</span>: 2<span class="o">}}}]</span><span class="s1">'
+{ ...
+  "SyncStatus": {
+    "517560cc-f165-4ff6-947b-3adda8aef744": {
+      "1234": "ok",
+      "5678": "ok"
+    }
+  },
+  ... }
+</span></code></pre>
+<pre class="highlight python"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">todoist</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">api</span> <span class="o">=</span> <span class="n">todoist</span><span class="o">.</span><span class="n">TodoistAPI</span><span class="p">(</span><span class="s">'0123456789abcdef0123456789abcdef01234567'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">api</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">update_orders</span><span class="p">({</span><span class="mi">1234</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5678</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">api</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</code></pre>
+<h3 id='required-arguments'>Required arguments</h3>
+<table><thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id_order_mapping</td>
+<td>A dictionary, where a label id is the key, and the order its value: <code class="prettyprint">label_id: order</code>.</td>
 </tr>
 </tbody></table>
 
@@ -2230,6 +2280,8 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
   <span class="s">'uids_to_notify'</span><span class="p">:</span> <span class="bp">None</span>
 <span class="p">}</span>
 </code></pre>
+
+<p>Notes are only available for Todoist Premium users.</p>
 <h3 id='properties'>Properties</h3>
 <table><thead>
 <tr>
@@ -2629,6 +2681,8 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
   <span class="s">'id'</span><span class="p">:</span> <span class="mi">4638878</span>
 <span class="p">}</span>
 </code></pre>
+
+<p>Filters are only available for Todoist Premium users.</p>
 <h3 id='properties'>Properties</h3>
 <table><thead>
 <tr>
@@ -2654,7 +2708,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </tr>
 <tr>
 <td>query</td>
-<td>The query to search for. <a href="https://todoist.com/Help/timeQuery">Examples of searches</a> can be found in the Todoist help page.</td>
+<td>The query to search for. <a href="https://todoist.com/Help/Filtering">Examples of searches</a> can be found in the Todoist help page.</td>
 </tr>
 </tbody></table>
 <h2 id='add-a-filter'>Add a filter</h2>
@@ -2690,7 +2744,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </tr>
 <tr>
 <td>query</td>
-<td>The query to search for. <a href="https://todoist.com/Help/timeQuery">Examples of searches</a> can be found in the Todoist help page.</td>
+<td>The query to search for. <a href="https://todoist.com/Help/Filtering">Examples of searches</a> can be found in the Todoist help page.</td>
 </tr>
 </tbody></table>
 <h3 id='optional-arguments'>Optional arguments</h3>
@@ -2749,7 +2803,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </thead><tbody>
 <tr>
 <td>query</td>
-<td>The query to search for. <a href="https://todoist.com/Help/timeQuery">Examples of searches</a> can be found in the Todoist help page.</td>
+<td>The query to search for. <a href="https://todoist.com/Help/Filtering">Examples of searches</a> can be found in the Todoist help page.</td>
 </tr>
 <tr>
 <td>item_order</td>
@@ -2853,6 +2907,8 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
   <span class="s">'date_string'</span><span class="p">:</span> <span class="s">'Oct 6 @ 2pm'</span>
 <span class="p">}</span>
 </code></pre>
+
+<p>Reminders are only available for Todoist Premium users.</p>
 <h3 id='properties'>Properties</h3>
 <table><thead>
 <tr>
@@ -2882,7 +2938,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </tr>
 <tr>
 <td>date_string</td>
-<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/timeInsert">which formats are supported</a>.</td>
+<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/DatesTimes">which formats are supported</a>.</td>
 </tr>
 <tr>
 <td>date_lang</td>
@@ -2983,7 +3039,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </tr>
 <tr>
 <td>date_string</td>
-<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/timeInsert">which formats are supported</a>.</td>
+<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/DatesTimes">which formats are supported</a>.</td>
 </tr>
 <tr>
 <td>date_lang</td>
@@ -3062,7 +3118,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </tr>
 <tr>
 <td>date_string</td>
-<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/timeInsert">which formats are supported</a>.</td>
+<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/DatesTimes">which formats are supported</a>.</td>
 </tr>
 <tr>
 <td>date_lang</td>
@@ -3706,7 +3762,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </tr>
 <tr>
 <td>queries</td>
-<td>A JSON list of queries to search. <a href="https://todoist.com/Help/timeQuery">Examples of searches</a> can be found in the Todoist help page.</td>
+<td>A JSON list of queries to search. <a href="https://todoist.com/Help/Filtering">Examples of searches</a> can be found in the Todoist help page.</td>
 </tr>
 </tbody></table>
 <h3 id='optional-arguments'>Optional arguments</h3>
@@ -4121,7 +4177,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <span class="p">}</span>
 </code></pre>
 
-<p>Get all the user&rsquo;s completed items (tasks).</p>
+<p>Get all the user&rsquo;s completed items (tasks). Only available for Todoist Premium users.</p>
 <h3 id='required-parameters'>Required parameters</h3>
 <table><thead>
 <tr>
@@ -4249,7 +4305,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </tr>
 <tr>
 <td>date_string</td>
-<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/timeInsert">which formats are supported</a>.</td>
+<td>The date of the task, added in free form text, for example it can be <code class="prettyprint">every day @ 10</code>. Look at our reference to see <a href="https://todoist.com/Help/DatesTimes">which formats are supported</a>.</td>
 </tr>
 <tr>
 <td>priority</td>
@@ -5183,7 +5239,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </tr>
 <tr>
 <td>date</td>
-<td>The due date of the task, which should be a string that in <code class="prettyprint">Percent-encoding</code> (also known as URL encoding). Look at our reference to see <a href="https://todoist.com/Help/timeInsert">which formats are supported</a>.</td>
+<td>The due date of the task, which should be a string that in <code class="prettyprint">Percent-encoding</code> (also known as URL encoding). Look at our reference to see <a href="https://todoist.com/Help/DatesTimes">which formats are supported</a>.</td>
 </tr>
 <tr>
 <td>priority</td>
