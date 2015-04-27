@@ -2,32 +2,17 @@
 
 The Todoist Webhooks API allows applications to receive realtime notification (in form of HTTP POST payload) on the subscribed user events. 
 
-Notice that once you have webhook setup, you will start receiving webhook events from __all your app users__.
+Notice that once you have webhook setup, you will start receiving webhook events from __all your app users__ immediately.
 
 
 ## Webhooks Configuration
 
-Before you can start receiving webhook event notifications, you must have your webhook configured at the App Management Console. 
-
-
-### Callback URL Verification
-
-To receive webhook event notifications, you must supply a "callback URL" to recieve these notification. It could be configured at the App Management Console.
-
-> An example of a callback_url verification request:
-```
-HTTP GET https://your_callback_url?challenge=GJ12X4D1IGJXB
-```
-
-After you enter the webhook callback URL and save the setting, we will send a verification request to the callback URL to verify that the endpoint belongs to you. It would be a HTTP GET request with a `challenge` query paramter that contains a random hex string. 
-
-Upon receiving such a request, your callback URL endpoint must return a HTTP 200 response with the same `challenge` text in the response body to complete the verification process. Once the verification is completed, your app's "Webhook Status" field should become "Active", and you will start receiving webhook event notification from all your app users.
-
+Before you can start receiving webhook event notifications, you must first have your webhook configured at the App Management Console. 
 
 
 ### Events
 
-Here is a list of events that you could subscribe to, and you could configured this at the App Management Console.
+Here is a list of events that you could subscribe to, and they are configured at the App Management Console.
 
 
 Event Name | Description
@@ -59,7 +44,7 @@ filter:updated |
 
 ### Event JSON Object
 
-Each webhook event is structured as a JSON object. The event JSON object follow the general structure:
+Each webhook event is structured as a JSON object. The event JSON object follows this general structure:
 
 `{"event_name": "...", "user_id"=..., "event_data": {...}}`
 
@@ -144,21 +129,18 @@ X-Todoist-Hmac-SHA256: UEEq9si3Vf9yRSrLthbpazbb69kP9+CZQ7fXmVyjhPs=
 
 ### Event Delivery
 
-When your subscribed webhook events occourred, we will deliver event notification to your configured "Webhook Callback URL". 
-It will be a HTTP POST request, with `Content-Type: application/json`. Notice that it will be a __JSON array__ because we might 
-deliver multiple event notification (could be from different users) at once.
-
+When your subscribed webhook events occourred, we would deliver an event notification to your configured webhook callback url via a HTTP POST request. Notice that the payload would be a __JSON array__ because multiple event notifications could be delivered in a single notification request.
 
 
 ### Payload Verification 
 
-To verify each webhook request is sent by us, we include a __X-Todoist-Hmac-SHA256__ header which contains a SHA256 Hmac 
-that is generated using `client_secret` as key and the whole request payload as message. The resulting Hmac is encoded as 
+To verify each webhook request was indeed sent by Todoist, we would include a __X-Todoist-Hmac-SHA256__ header which was a SHA256 Hmac 
+generated using your `client_secret` as the encryption key and the whole request payload as the message to be encrypted. The resulting Hmac would be encoded in 
 a base64 string.
 
 
 ### Failed Delivery
-When a event notification failed to be delivered to your "Webhook Callback URL" endpoint (i.e. due to server error, network failure, incorrect response...etc), 
-it will be redelivered after 30 mins (1hr and 1.5hr for the second and the third retry respectively), and each notification would be redelivered for maximum of 3 times.
+When a event notification failed to be delivered to your webhook callback URL endpoint (i.e. due to server error, network failure, incorrect response...etc), 
+it would be redelivered after 30 mins (1hr and 1.5hr for the second and the third retry respectively), and each notification would be redelivered for at most three times.
 
-__Your callback endpoint must respond with a HTTP 200 when receiving a event notification request.__ Response other than HTTP 200 will be considered as failed delivery, and the notification will be redelivered again.
+__Your callback endpoint must respond with a HTTP 200 when receiving a event notification request.__ Response other than HTTP 200 would be considered as failed delivery, and the notification would be redelivered again.

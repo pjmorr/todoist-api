@@ -5430,24 +5430,11 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
         <h1 id='webhooks'>Webhooks</h1>
 <p>The Todoist Webhooks API allows applications to receive realtime notification (in form of HTTP POST payload) on the subscribed user events. </p>
 
-<p>Notice that once you have webhook setup, you will start receiving webhook events from <strong>all your app users</strong>.</p>
+<p>Notice that once you have webhook setup, you will start receiving webhook events from <strong>all your app users</strong> immediately.</p>
 <h2 id='webhooks-configuration'>Webhooks Configuration</h2>
-<p>Before you can start receiving webhook event notifications, you must have your webhook configured at the App Management Console. </p>
-<h3 id='callback-url-verification'>Callback URL Verification</h3>
-<p>To receive webhook event notifications, you must supply a &ldquo;callback URL&rdquo; to recieve these notification. It could be configured at the App Management Console.</p>
-
-<blockquote>
-<p>An example of a callback_url verification request:
-<code class="prettyprint">
-HTTP GET https://your_callback_url?challenge=GJ12X4D1IGJXB
-</code></p>
-</blockquote>
-
-<p>After you enter the webhook callback URL and save the setting, we will send a verification request to the callback URL to verify that the endpoint belongs to you. It would be a HTTP GET request with a <code class="prettyprint">challenge</code> query paramter that contains a random hex string. </p>
-
-<p>Upon receiving such a request, your callback URL endpoint must return a HTTP 200 response with the same <code class="prettyprint">challenge</code> text in the response body to complete the verification process. Once the verification is completed, your app&rsquo;s &ldquo;Webhook Status&rdquo; field should become &ldquo;Active&rdquo;, and you will start receiving webhook event notification from all your app users.</p>
+<p>Before you can start receiving webhook event notifications, you must first have your webhook configured at the App Management Console. </p>
 <h3 id='events'>Events</h3>
-<p>Here is a list of events that you could subscribe to, and you could configured this at the App Management Console.</p>
+<p>Here is a list of events that you could subscribe to, and they are configured at the App Management Console.</p>
 
 <table><thead>
 <tr>
@@ -5533,7 +5520,7 @@ HTTP GET https://your_callback_url?challenge=GJ12X4D1IGJXB
 </tr>
 </tbody></table>
 <h2 id='event-structure--delivery'>Event Structure / Delivery</h2><h3 id='event-json-object'>Event JSON Object</h3>
-<p>Each webhook event is structured as a JSON object. The event JSON object follow the general structure:</p>
+<p>Each webhook event is structured as a JSON object. The event JSON object follows this general structure:</p>
 
 <p><code class="prettyprint">{&quot;event_name&quot;: &quot;...&quot;, &quot;user_id&quot;=..., &quot;event_data&quot;: {...}}</code></p>
 
@@ -5612,18 +5599,16 @@ X-Todoist-Hmac-SHA256: UEEq9si3Vf9yRSrLthbpazbb69kP9+CZQ7fXmVyjhPs=
 }
 </code></pre>
 <h3 id='event-delivery'>Event Delivery</h3>
-<p>When your subscribed webhook events occourred, we will deliver event notification to your configured &ldquo;Webhook Callback URL&rdquo;. 
-It will be a HTTP POST request, with <code class="prettyprint">Content-Type: application/json</code>. Notice that it will be a <strong>JSON array</strong> because we might 
-deliver multiple event notification (could be from different users) at once.</p>
+<p>When your subscribed webhook events occourred, we would deliver an event notification to your configured webhook callback url via a HTTP POST request. Notice that the payload would be a <strong>JSON array</strong> because multiple event notifications could be delivered in a single notification request.</p>
 <h3 id='payload-verification'>Payload Verification</h3>
-<p>To verify each webhook request is sent by us, we include a <strong>X-Todoist-Hmac-SHA256</strong> header which contains a SHA256 Hmac 
-that is generated using <code class="prettyprint">client_secret</code> as key and the whole request payload as message. The resulting Hmac is encoded as 
+<p>To verify each webhook request was indeed sent by Todoist, we would include a <strong>X-Todoist-Hmac-SHA256</strong> header which was a SHA256 Hmac 
+generated using your <code class="prettyprint">client_secret</code> as the encryption key and the whole request payload as the message to be encrypted. The resulting Hmac would be encoded in 
 a base64 string.</p>
 <h3 id='failed-delivery'>Failed Delivery</h3>
-<p>When a event notification failed to be delivered to your &ldquo;Webhook Callback URL&rdquo; endpoint (i.e. due to server error, network failure, incorrect response&hellip;etc), 
-it will be redelivered after 30 mins (1hr and 1.5hr for the second and the third retry respectively), and each notification would be redelivered for maximum of 3 times.</p>
+<p>When a event notification failed to be delivered to your webhook callback URL endpoint (i.e. due to server error, network failure, incorrect response&hellip;etc), 
+it would be redelivered after 30 mins (1hr and 1.5hr for the second and the third retry respectively), and each notification would be redelivered for at most three times.</p>
 
-<p><strong>Your callback endpoint must respond with a HTTP 200 when receiving a event notification request.</strong> Response other than HTTP 200 will be considered as failed delivery, and the notification will be redelivered again.</p>
+<p><strong>Your callback endpoint must respond with a HTTP 200 when receiving a event notification request.</strong> Response other than HTTP 200 would be considered as failed delivery, and the notification would be redelivered again.</p>
 
     </div>
     <div class="dark-box">
