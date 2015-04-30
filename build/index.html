@@ -3564,7 +3564,7 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <blockquote>
 <p>On success, an HTTP 200 OK with a JSON object with the tasks found is returned:</p>
 </blockquote>
-<pre class="highlight shell"><code><span class="gp">$ </span>curl https://todoist.com/API/query <span class="se">\</span>
+<pre class="highlight shell"><code><span class="gp">$ </span>curl https://todoist.com/API/v6/query <span class="se">\</span>
     -d <span class="nv">token</span><span class="o">=</span>0123456789abcdef0123456789abcdef01234567 <span class="se">\</span>
     -d <span class="nv">queries</span><span class="o">=</span><span class="s1">'["tomorrow","p1"]'</span>
 <span class="o">[</span>
