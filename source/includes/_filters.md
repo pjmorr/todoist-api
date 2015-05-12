@@ -109,6 +109,7 @@ id | The id of the filter.
 
 Argument | Description
 -------- | -----------
+name | The name of the filter.
 query | The query to search for. [Examples of searches](https://todoist.com/Help/Filtering) can be found in the Todoist help page.
 item_order | Filter's order in the filter list.
 color | The color of the filter.
