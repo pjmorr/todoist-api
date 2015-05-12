@@ -3113,6 +3113,14 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 </tr>
 </thead><tbody>
 <tr>
+<td>service</td>
+<td>The way to get notified of the reminder: <code class="prettyprint">email</code> for e-mail, <code class="prettyprint">sms</code> for mobile text message, or <code class="prettyprint">push</code> for mobile push notification.</td>
+</tr>
+<tr>
+<td>type</td>
+<td>The type of the reminder: <code class="prettyprint">relative</code> for a time-based reminder specified in minutes from now, <code class="prettyprint">absolute</code> for a time-based reminder with a specific time and date in the future, and <code class="prettyprint">location</code> for a location-based reminder.</td>
+</tr>
+<tr>
 <td>minute_offset</td>
 <td>The relative time in minutes from the current time in which the reminder should be triggered.</td>
 </tr>
@@ -3131,10 +3139,6 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <tr>
 <td>notify_uid</td>
 <td>The user id which should be notified of the reminder, typically the current user id creating the reminder.</td>
-</tr>
-<tr>
-<td>type</td>
-<td>The type of the reminder: <code class="prettyprint">relative</code> for a time-based reminder specified in minutes from now, <code class="prettyprint">absolute</code> for a time-based reminder with a specific time and date in the future, and <code class="prettyprint">location</code> for a location-based reminder.</td>
 </tr>
 <tr>
 <td>name</td>
