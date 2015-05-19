@@ -189,14 +189,14 @@ $ curl https://todoist.com/API/v6/query \
 ]
 ```
 
-You can query after date, priority or labels.
+You can query after date, priority, or labels (only available for Todoist Premium users).
 
 ### Required arguments
 
 Argument | Description
 -------- | -----------
 token | The user's token (received on login).
-queries | A JSON list of queries to search. [Examples of searches](https://todoist.com/Help/Filtering) can be found in the Todoist help page.
+queries | A JSON list of queries to search. [Examples of searches](https://todoist.com/Help/Filtering) can be found in the Todoist help page, but note, that not all of these examples are currently applicable for this method.
 
 ### Optional arguments
 
