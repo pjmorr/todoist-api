@@ -192,6 +192,40 @@ Parameter | Description
 lang | User's language. Can be `de`, `fr`, `ja`, `pl`, `pt_BR`, `zh_CN`, `es`, `hi`, `ko`, `pt`, `ru`, `zh_TW`.
 timezone | User's timezone. As default we use the user's IP address to determine the timezone.
 
+## Delete an existing user
+
+> An example of deleting an existing user:
+
+```shell
+$ curl https://todoist.com/API/v6/delete_user \
+    -d token=0123456789abcdef0123456789abcdef01234567 \
+    -d current_password=secret
+"ok"
+```
+
+```python
+>>> import todoist
+>>> api = todoist.TodoistAPI('0123456789abcdef0123456789abcdef01234567')
+>>> api.delete_user('secret')
+ok
+```
+
+Delete an existing user.
+
+### Required parameters
+
+Parameter | Description
+--------- | -----------
+token | User's token.
+current_password | User's current password.
+
+### Optional parameters
+
+Parameter | Description
+--------- | -----------
+reason_for_delete | Reason for deletion (used for feedback).
+
+
 ## Update user's properties
 
 

@@ -3459,6 +3459,50 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <td>User&rsquo;s timezone. As default we use the user&rsquo;s IP address to determine the timezone.</td>
 </tr>
 </tbody></table>
+<h2 id='delete-an-existing-user'>Delete an existing user</h2>
+<blockquote>
+<p>An example of deleting an existing user:</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="gp">$ </span>curl https://todoist.com/API/v6/delete_user <span class="se">\</span>
+    -d <span class="nv">token</span><span class="o">=</span>0123456789abcdef0123456789abcdef01234567 <span class="se">\</span>
+    -d <span class="nv">current_password</span><span class="o">=</span>secret
+<span class="s2">"ok"</span>
+</code></pre>
+<pre class="highlight python"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">todoist</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">api</span> <span class="o">=</span> <span class="n">todoist</span><span class="o">.</span><span class="n">TodoistAPI</span><span class="p">(</span><span class="s">'0123456789abcdef0123456789abcdef01234567'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">api</span><span class="o">.</span><span class="n">delete_user</span><span class="p">(</span><span class="s">'secret'</span><span class="p">)</span>
+<span class="n">ok</span>
+</code></pre>
+
+<p>Delete an existing user.</p>
+<h3 id='required-parameters'>Required parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token</td>
+<td>User&rsquo;s token.</td>
+</tr>
+<tr>
+<td>current_password</td>
+<td>User&rsquo;s current password.</td>
+</tr>
+</tbody></table>
+<h3 id='optional-parameters'>Optional parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>reason_for_delete</td>
+<td>Reason for deletion (used for feedback).</td>
+</tr>
+</tbody></table>
 <h2 id='update-user39s-properties'>Update user&rsquo;s properties</h2>
 <blockquote>
 <p>An example of updating the user&rsquo;s properties:</p>
