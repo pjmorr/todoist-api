@@ -406,7 +406,12 @@ Status code | Description
 ------------|------------
 200 OK | The request was processed successfuly.
 400 Bad Request | The request was incorrect.
+401 Unauthorized | Authentication is required, and has failed, or has not yet been provided.
+403 Forbidden | The request was valid, but for something that is forbidden.
+404 Not Found | The requested resource could not be found.
+429 Too Many Requests | The user has sent too many requests in a given amount of time.
 500 Internal Server Error | The request failed due to a server error.
+503 Service Unavailable | The server is currently unable to handle the request.
 
 ### Return values
 

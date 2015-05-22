@@ -1092,8 +1092,28 @@ provided information, and a 5xx code an internal, possibly temporary, error.</p>
 <td>The request was incorrect.</td>
 </tr>
 <tr>
+<td>401 Unauthorized</td>
+<td>Authentication is required, and has failed, or has not yet been provided.</td>
+</tr>
+<tr>
+<td>403 Forbidden</td>
+<td>The request was valid, but for something that is forbidden.</td>
+</tr>
+<tr>
+<td>404 Not Found</td>
+<td>The requested resource could not be found.</td>
+</tr>
+<tr>
+<td>429 Too Many Requests</td>
+<td>The user has sent too many requests in a given amount of time.</td>
+</tr>
+<tr>
 <td>500 Internal Server Error</td>
 <td>The request failed due to a server error.</td>
+</tr>
+<tr>
+<td>503 Service Unavailable</td>
+<td>The server is currently unable to handle the request.</td>
 </tr>
 </tbody></table>
 <h3 id='return-values'>Return values</h3>
